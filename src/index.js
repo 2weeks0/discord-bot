@@ -2,7 +2,8 @@ import { Client, GatewayIntentBits, REST, Routes } from "discord.js";
 import config from "../config.json" assert { type: "json" };
 import { commands } from "./commands/index.js";
 import mongoose from "mongoose";
-import * as User from "./commands/user.js";
+import * as User from "./db/user.js";
+import * as Commit from "./db/commit.js";
 
 const rest = new REST({ version: "10" }).setToken(config.BOT_TOKEN);
 
@@ -55,7 +56,9 @@ client.on("interactionCreate", async (interaction) => {
       return;
 
     case "사용자_조회":
-      User.findAllUser(async (users) => await interaction.reply(`사용자 조회!!\n${users || "사용자가 없다!"}`));
+      User.findAllUser(
+        async (users) => await interaction.reply(`사용자 조회!!\n${users || "사용자가 없다!"}`)
+      );
       return;
 
     case "사용자_제거":
@@ -66,10 +69,26 @@ client.on("interactionCreate", async (interaction) => {
 });
 
 client.on("messageCreate", function (message) {
+//   console.log(message);
   if (!message.author.bot || message.author.username !== "GitHub") {
     return;
   }
-//   console.log("messageCreate", message.embeds[0].data);
+
+  //   console.log("messageCreate", message.embeds[0].data);
+  const githubName = message.embeds[0].data.author.name;
+  const timeStamp = message.createdTimestamp;
+  const channelType = config.CHANNEL_TYPES[message.channelId];
+  const description = message.embeds[0].data.description;
+
+  Commit.saveCommit(
+    {
+      githubName,
+      timeStamp,
+      channelType,
+      description,
+    },
+    async (commit) => await message.reply(`커밋 저장 완료!!\n${commit}`)
+  );
 });
 
 mongoose

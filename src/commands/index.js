@@ -1,7 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
 
 export const commands = [
-  new SlashCommandBuilder().setName("ping").setDescription("Replies with pong!"),
   new SlashCommandBuilder()
     .setName("사용자_등록")
     .setDescription("Github ID를 등록하자!")

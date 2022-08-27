@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const User = mongoose.model(
-  "Schema",
+  "user",
   mongoose.Schema({
     name: "string",
     githubName: "string",
