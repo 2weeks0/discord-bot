@@ -22,18 +22,24 @@ const rest = new REST({ version: "10" }).setToken(config.BOT_TOKEN);
   }
 })();
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
 client.once("ready", () => {
   console.log(`Ready! Logged in as ${client.user.tag}!`);
 });
 
 client.on("interactionCreate", async (interaction) => {
+  console.log("interaction", interaction);
   if (!interaction.isChatInputCommand()) return;
 
   if (interaction.commandName === "ping") {
     await interaction.reply("Pong!");
   }
 });
+
+client.on("messageCreate", function (message) {
+  console.log("messageCreate", message);
+});
+
 
 client.login(config.BOT_TOKEN);
