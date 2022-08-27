@@ -20,4 +20,10 @@ export const commands = [
     .addStringOption((option) =>
       option.setName("id").setDescription("id를 입력하자!").setRequired(true)
     ),
+  new SlashCommandBuilder()
+    .setName("커밋_정산")
+    .setDescription("날짜를 입력하고 하루를 정산하자!")
+    .addStringOption((option) =>
+      option.setName("date").setDescription("년/월/일을 입력하자! (예) 2022-8-27").setRequired(false)
+    ),
 ].map((it) => it.toJSON());

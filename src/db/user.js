@@ -19,20 +19,18 @@ export const saveUser = (name, githubName, callback) => {
   });
 };
 
-export const findAllUser = (callback) => {
-  User.find((err, users) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    let result = "";
-    users?.forEach((it) => {
-        result += `name: ${it.name}\n`;
-        result += `id: ${it._id}\n`;
-        result += `githubName: ${it.githubName}\n\n`;
-    })
-    callback(result);
+export const findAllUser = async (callback) => {
+  const users = await User.find();
+
+  let result = "";
+  users?.forEach((it) => {
+    result += `name: ${it.name}\n`;
+    result += `id: ${it._id}\n`;
+    result += `githubName: ${it.githubName}\n\n`;
   });
+
+  callback?.(result);
+  return users;
 };
 
 export const removeUser = (id) => {

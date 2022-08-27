@@ -40,10 +40,6 @@ client.on("interactionCreate", async (interaction) => {
   }
 
   switch (interaction.commandName) {
-    case "ping":
-      await interaction.reply("Pong!" + name);
-      return;
-
     case "사용자_등록":
       const name = interaction.options.get("name").value;
       const githubName = interaction.options.get("github_name").value;
@@ -65,25 +61,39 @@ client.on("interactionCreate", async (interaction) => {
       const id = interaction.options.get("id").value;
       User.removeUser(id, async () => await interaction.reply("삭제 완료!!"));
       return;
+
+    case "커밋_정산":
+      const date = interaction.options.get("date")?.value;
+      const min = date ? new Date(date) : new Date();
+      min.setHours(6);
+      const max = date ? new Date(date) : new Date();
+      max.setDate(min.getDate + 1);
+      max.setHours(6);
+      Commit.findCommitLog(
+        min.toTimeString(),
+        max.toTimeString(),
+        async (logs) => await interaction.reply(`${min.toLocaleDateString()} 정산!!\n${logs}`)
+      );
+      return;
   }
 });
 
 client.on("messageCreate", function (message) {
-//   console.log(message);
+  //   console.log(message);
   if (!message.author.bot || message.author.username !== "GitHub") {
     return;
   }
 
   //   console.log("messageCreate", message.embeds[0].data);
   const githubName = message.embeds[0].data.author.name;
-  const timeStamp = message.createdTimestamp;
+  const createdTimestamp = message.createdTimestamp;
   const channelType = config.CHANNEL_TYPES[message.channelId];
   const description = message.embeds[0].data.description;
 
   Commit.saveCommit(
     {
       githubName,
-      timeStamp,
+      createdTimestamp,
       channelType,
       description,
     },
