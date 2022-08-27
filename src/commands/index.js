@@ -18,7 +18,7 @@ export const commands = [
     .setName("사용자_제거")
     .setDescription("사용자를 제거하자!")
     .addStringOption((option) =>
-      option.setName("id").setDescription("id를 입력하자!").setRequired(true)
+      option.setName("github_name").setDescription("Github Name을 입력하자!").setRequired(true)
     ),
   new SlashCommandBuilder()
     .setName("커밋_정산")

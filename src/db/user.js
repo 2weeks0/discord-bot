@@ -8,14 +8,21 @@ const User = mongoose.model(
   })
 );
 
-export const saveUser = (name, githubName, callback) => {
+export const saveUser = async (name, githubName, callback) => {
+  const user = await User.findOne({githubName: githubName});
+  console.log(user);
+  if (user) {
+    callback("등록 실패!! 이미 있는 githubName입니다!!");
+    return;
+  }
+
   const newUser = new User({ name, githubName });
   newUser.save((err, user) => {
     if (err) {
       console.log(err);
       return;
     }
-    callback();
+    callback(`등록 완료!! (name: ${name}, github_name: ${githubName})`);
   });
 };
 
@@ -33,8 +40,8 @@ export const findAllUser = async (callback) => {
   return users;
 };
 
-export const removeUser = (id) => {
-  User.deleteOne({ _id: id }, (err) => {
+export const removeUser = (githubName) => {
+  User.deleteOne({ githubName }, (err) => {
     if (err) {
       console.log(err);
     }

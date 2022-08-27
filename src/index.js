@@ -43,12 +43,7 @@ client.on("interactionCreate", async (interaction) => {
     case "사용자_등록":
       const name = interaction.options.get("name").value;
       const githubName = interaction.options.get("github_name").value;
-      User.saveUser(
-        name,
-        githubName,
-        async () =>
-          await interaction.reply(`등록 완료!! (name: ${name}, github_name: ${githubName})`)
-      );
+      User.saveUser(name, githubName, async (msg) => await interaction.reply(msg));
       return;
 
     case "사용자_조회":
@@ -58,8 +53,10 @@ client.on("interactionCreate", async (interaction) => {
       return;
 
     case "사용자_제거":
-      const id = interaction.options.get("id").value;
-      User.removeUser(id, async () => await interaction.reply("삭제 완료!!"));
+      User.removeUser(
+        interaction.options.get("github_name").value,
+        async () => await interaction.reply("삭제 완료!!")
+      );
       return;
 
     case "커밋_정산":
