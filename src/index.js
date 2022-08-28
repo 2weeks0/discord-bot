@@ -114,6 +114,7 @@ client.on("messageCreate", async function (message) {
       description,
     },
     async () => {
+      await message.react("👍");
       await message.react("<:check1:1013337743213994004>");
       await message.react("<:check2:1013337799593836614>");
       await message.react("<:bono:1013334314626326528>");
