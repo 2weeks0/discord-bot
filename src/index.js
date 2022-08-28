@@ -61,14 +61,33 @@ client.on("interactionCreate", async (interaction) => {
 
     case "커밋_정산":
       const date = interaction.options.get("date")?.value;
-      const min = date ? new Date(date) : new Date();
+      const now = new Date();
+      let min, max;
+
+      if (date) {
+        min = new Date(date);
+        max = new Date(date);
+      } else  {
+        min = new Date();
+        max = new Date();
+        if (now.getHours() < 6) {
+          min.setDate(min.getDate() - 1);
+          max.setDate(max.getDate() - 1);
+        }
+      }
+      
       min.setHours(6);
-      const max = date ? new Date(date) : new Date();
-      max.setDate(min.getDate + 1);
+      min.setMinutes(0);
+      min.setSeconds(0);
+
+      max.setDate(min.getDate() + 1);
       max.setHours(6);
+      max.setMinutes(0);
+      max.setSeconds(0);
+
       Commit.findCommitLog(
-        min.toTimeString(),
-        max.toTimeString(),
+        String(min.getTime()),
+        String(max.getTime()),
         async (logs) => await interaction.reply(`${min.toLocaleDateString()} 정산!!\n${logs}`)
       );
       return;
