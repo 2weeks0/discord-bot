@@ -94,7 +94,11 @@ client.on("messageCreate", async function (message) {
       channelType,
       description,
     },
-    async () => await message.react("<:bono:1013334314626326528>")
+    async () => {
+      await message.react("<:check1:1013337743213994004>");
+      await message.react("<:check2:1013337799593836614>");
+      await message.react("<:bono:1013334314626326528>");
+    }
   );
 });
 
