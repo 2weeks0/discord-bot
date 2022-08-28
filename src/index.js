@@ -78,7 +78,6 @@ client.on("interactionCreate", async (interaction) => {
 client.on("messageCreate", async function (message) {
   //   console.log(message);
   if (!message.author.bot || message.author.username !== "GitHub") {
-    await message.react("<:bono:1013334314626326528>");
     return;
   }
 
