@@ -28,6 +28,13 @@ export const saveUser = async (name, githubName, callback) => {
 
 export const findAllUser = async (callback) => {
   const users = await User.find();
+  users.sort((a, b) => {
+    if (a.name < b.name) {
+      return -1;
+    } else {
+      return 1;
+    }
+  });
 
   let result = "";
   users?.forEach((it) => {
