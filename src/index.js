@@ -75,9 +75,10 @@ client.on("interactionCreate", async (interaction) => {
   }
 });
 
-client.on("messageCreate", function (message) {
+client.on("messageCreate", async function (message) {
   //   console.log(message);
   if (!message.author.bot || message.author.username !== "GitHub") {
+    await message.react("<:bono:1013334314626326528>");
     return;
   }
 
@@ -94,7 +95,7 @@ client.on("messageCreate", function (message) {
       channelType,
       description,
     },
-    async (commit) => await message.reply(`커밋 저장 완료!!\n${commit}`)
+    async () => await message.react("<:bono:1013334314626326528>")
   );
 });
 
