@@ -3,7 +3,7 @@ import prod from "./prod.js";
 
 let config;
 
-if (process.env.NODE_EN === "production") {
+if (process.env.NODE_ENV === "production") {
   config = {
     ...prod,
   };
