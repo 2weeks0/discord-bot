@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { findAllUser } from "./user.js";
-import config from "../../config.json" assert { type: "json" };
+import config from "../config/index.js";
 
 const Commit = mongoose.model(
   "commit",

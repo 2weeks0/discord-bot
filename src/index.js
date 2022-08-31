@@ -1,5 +1,5 @@
 import { Client, GatewayIntentBits, REST, Routes } from "discord.js";
-import config from "../config.json" assert { type: "json" };
+import config from "./config/index.js";
 import { commands } from "./commands/index.js";
 import mongoose from "mongoose";
 import * as User from "./db/user.js";
