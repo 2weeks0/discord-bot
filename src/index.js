@@ -68,9 +68,8 @@ client.on("interactionCreate", async (interaction) => {
         min = new Date(date);
         max = new Date(date);
       } else  {
-        const diff = now.getTime() + (now.getTimezoneOffset() * 60 * 1000) + 9 * 60 * 60 * 1000;
-        min = new Date(diff);
-        max = new Date(diff);
+        min = new Date();
+        max = new Date();
         if (now.getHours() < 6) {
           min.setDate(min.getDate() - 1);
           max.setDate(max.getDate() - 1);
@@ -86,9 +85,10 @@ client.on("interactionCreate", async (interaction) => {
       max.setMinutes(0);
       max.setSeconds(0);
 
+      const KOR_DIFF = 9 * 60 * 60 * 1000;
       Commit.findCommitLog(
-        String(min.getTime()),
-        String(max.getTime()),
+        String(min.getTime() - KOR_DIFF),
+        String(max.getTime() - KOR_DIFF),
         async (logs) => await interaction.reply(`${min.toLocaleDateString()} 정산!!\n${logs}`)
       );
       return;
